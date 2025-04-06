@@ -17,13 +17,19 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    axios.get("https://job-api-4lhs.onrender.com/api/jobs") // Backend endpoint
+    axios
+      .get("https://job-api-4lhs.onrender.com/api/jobs")
       .then((response) => {
-        setJobs(response.data);
+        console.log("✅ Jobs fetched:", response.data);
+        if (Array.isArray(response.data)) {
+          setJobs(response.data);
+        } else {
+          setError("Invalid data received from server.");
+        }
       })
       .catch((err) => {
+        console.error("❌ Error fetching jobs:", err);
         setError("Failed to load jobs. Please try again.");
-        console.error("Error fetching jobs:", err);
       })
       .finally(() => {
         setLoading(false);
@@ -47,9 +53,7 @@ const Jobs = () => {
 
   return (
     <Container style={{ marginTop: "20px" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px", fontWeight: "bold" }}>
-        Job Openings
-      </h2>
+      <h2 className="text-center mb-4 fw-bold">Job Openings</h2>
 
       {/* Filter Controls */}
       <Row className="mb-4">
