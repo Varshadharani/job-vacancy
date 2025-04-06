@@ -17,7 +17,7 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/jobs")
+    axios.get("https://job-api-4lhs.onrender.com")
       .then((response) => {
         setJobs(response.data); // Load jobs dynamically
       })
