@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import JobCard from "../components/JobCards";
 import { Container, Row, Col, Spinner, Alert, Form } from "react-bootstrap";
 import axios from "axios";
-import { JobContext } from "../context/JobContext"; // ✅ Import Job Context
+import { JobContext } from "../context/JobContext";
 
 const Jobs = () => {
-  const { jobs, setJobs } = useContext(JobContext); // ✅ Use Job Context
+  const { jobs, setJobs } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,9 +17,10 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    axios.get("https://job-api-4lhs.onrender.com/jobs") // ✅ Corrected endpoint
+    axios
+      .get("https://job-api-4lhs.onrender.com/jobs") // Backend endpoint
       .then((response) => {
-        setJobs(response.data); // ✅ Set job array
+        setJobs(response.data);
       })
       .catch((err) => {
         setError("Failed to load jobs. Please try again.");
@@ -34,14 +35,13 @@ const Jobs = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  // ✅ Safely filter only if jobs is an array
   const filteredJobs = Array.isArray(jobs)
     ? jobs.filter((job) => {
         return (
           (job.title?.toLowerCase() || "").includes(filters.title.toLowerCase()) &&
           (job.location?.toLowerCase() || "").includes(filters.location.toLowerCase()) &&
-          (job.jobtype?.toLowerCase() || "").includes(filters.jobType.toLowerCase()) &&
-          (job.salary?.toLowerCase() || "").includes(filters.salary.toLowerCase())
+          (job.job_type?.toLowerCase() || "").includes(filters.jobType.toLowerCase()) &&
+          (job.salary_range?.toLowerCase() || "").includes(filters.salary.toLowerCase())
         );
       })
     : [];
@@ -52,7 +52,7 @@ const Jobs = () => {
         Job Openings
       </h2>
 
-      {/*  Filter Controls */}
+      {/* Filter Controls */}
       <Row className="mb-4">
         <Col md={3}>
           <Form.Control
@@ -73,10 +73,10 @@ const Jobs = () => {
         <Col md={3}>
           <Form.Select name="jobType" value={filters.jobType} onChange={handleFilterChange}>
             <option value="">All Types</option>
-            <option value="FullTime">Full-Time</option>
-            <option value="PartTime">Part-Time</option>
-            <option value="Internship">Internship</option>
-            <option value="Contract">Contract</option>
+            <option value="full-time">Full-Time</option>
+            <option value="part-time">Part-Time</option>
+            <option value="internship">Internship</option>
+            <option value="contract">Contract</option>
           </Form.Select>
         </Col>
         <Col md={3}>
@@ -89,11 +89,11 @@ const Jobs = () => {
         </Col>
       </Row>
 
-      {/*  Loading or Error */}
+      {/* Loading or Error */}
       {loading && <Spinner animation="border" className="d-block mx-auto" />}
       {error && <Alert variant="danger" className="text-center">{error}</Alert>}
 
-      {/*  Job List */}
+      {/* Job List */}
       <Row>
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
