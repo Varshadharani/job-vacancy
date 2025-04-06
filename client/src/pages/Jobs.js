@@ -4,7 +4,6 @@ import { Container, Row, Col, Spinner, Alert, Form } from "react-bootstrap";
 import axios from "axios";
 import { JobContext } from "../context/JobContext";
 
-
 const Jobs = () => {
   const { jobs, setJobs } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
@@ -30,83 +29,100 @@ const Jobs = () => {
       })
       .catch((err) => {
         console.error("❌ Error fetching jobs, loading mock data:", err);
-  
+
         // ✅ Load mock data
         const mockJobs = [
           {
             id: 1,
-            title: "Frontend Developer",
-            company: "TechNova",
-            location: "Bangalore",
-            job_type: "full-time",
-            salary_range: "₹8 - ₹12 LPA",
-            description: "React-based UI development.",
+            title: "Software Engineer",
+            company: "Google",
+            location: "California",
+            job_type: "Full-time",
+            salary_range: "$120k - $150k",
+            description: "Develop scalable applications",
+            technologies: "React, Node.js, PostgreSQL",
+            responsibilities: "Write clean and maintainable code"
           },
           {
             id: 2,
-            title: "Backend Engineer",
-            company: "CodeVerse",
-            location: "Chennai",
-            job_type: "full-time",
-            salary_range: "₹10 - ₹15 LPA",
-            description: "Build scalable APIs with Node.js.",
+            title: "Data Scientist",
+            company: "Amazon",
+            location: "New York",
+            job_type: "Full-time",
+            salary_range: "$110k - $140k",
+            description: "Analyze large datasets",
+            technologies: "Python, Machine Learning, SQL",
+            responsibilities: "Build predictive models and optimize performance"
           },
           {
             id: 3,
             title: "UI/UX Designer",
-            company: "PixelCraft",
-            location: "Remote",
-            job_type: "contract",
-            salary_range: "₹6 - ₹10 LPA",
-            description: "Design clean and intuitive UI.",
+            company: "Microsoft",
+            location: "Washington",
+            job_type: "Contract",
+            salary_range: "$80k - $100k",
+            description: "Design user-friendly interfaces",
+            technologies: "Figma, Adobe XD, CSS",
+            responsibilities: "Create wireframes and prototypes"
           },
           {
             id: 4,
             title: "DevOps Engineer",
-            company: "DeployIT",
-            location: "Mumbai",
-            job_type: "full-time",
-            salary_range: "₹14 - ₹20 LPA",
-            description: "Manage infrastructure and CI/CD pipelines.",
+            company: "Netflix",
+            location: "Los Angeles",
+            job_type: "Full-time",
+            salary_range: "$130k - $160k",
+            description: "Manage CI/CD pipelines",
+            technologies: "AWS, Docker, Kubernetes",
+            responsibilities: "Automate deployment and monitoring"
           },
           {
             id: 5,
-            title: "Full Stack Developer",
-            company: "BrightSoft",
-            location: "Hyderabad",
-            job_type: "full-time",
-            salary_range: "₹12 - ₹18 LPA",
-            description: "React + Node stack, building dashboards.",
+            title: "Product Manager",
+            company: "Tesla",
+            location: "Texas",
+            job_type: "Full-time",
+            salary_range: "$140k - $170k",
+            description: "Lead product development",
+            technologies: "Agile, Scrum, Business Strategy",
+            responsibilities: "Define product roadmap and work with teams"
           },
           {
             id: 6,
-            title: "Mobile Developer",
-            company: "AppNest",
-            location: "Pune",
-            job_type: "internship",
-            salary_range: "₹4 - ₹8 LPA",
-            description: "Work on Android and iOS apps.",
+            title: "Cybersecurity Analyst",
+            company: "IBM",
+            location: "Chicago",
+            job_type: "Full-time",
+            salary_range: "$90k - $120k",
+            description: "Ensure security of systems",
+            technologies: "Network Security, Ethical Hacking",
+            responsibilities: "Monitor and prevent cyber threats"
           },
           {
             id: 7,
-            title: "QA Tester",
-            company: "Testify",
-            location: "Kolkata",
-            job_type: "part-time",
-            salary_range: "₹5 - ₹9 LPA",
-            description: "Manual and automation testing.",
+            title: "Marketing Specialist",
+            company: "Facebook",
+            location: "San Francisco",
+            job_type: "Part-time",
+            salary_range: "$70k - $90k",
+            description: "Develop and execute marketing strategies",
+            technologies: "SEO, Google Ads, Social Media Marketing",
+            responsibilities: "Manage online campaigns and content"
           },
           {
             id: 8,
-            title: "Data Analyst",
-            company: "InsightX",
-            location: "Delhi",
-            job_type: "full-time",
-            salary_range: "₹10 - ₹14 LPA",
-            description: "Work with large datasets and visualizations.",
+            title: "Software Engineer",
+            company: "Google",
+            location: "California",
+            job_type: "Full-time",
+            salary_range: "$100k - $150k",
+            description: "Develop scalable apps",
+            technologies: "React, Node.js",
+            responsibilities: "Code and Deploy"
           }
         ];
-  
+        
+
         setJobs(mockJobs);
         setError("Failed to load from server. Showing mock data.");
       })
@@ -114,7 +130,6 @@ const Jobs = () => {
         setLoading(false);
       });
   }, [setJobs]);
-  
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -172,9 +187,13 @@ const Jobs = () => {
         </Col>
       </Row>
 
-      {/* Loading or Error */}
+      {/* Loading */}
       {loading && <Spinner animation="border" className="d-block mx-auto" />}
-      {error && <Alert variant="danger" className="text-center">{error}</Alert>}
+
+      {/* Only show error if jobs array is empty */}
+      {error && jobs.length === 0 && (
+        <Alert variant="danger" className="text-center">{error}</Alert>
+      )}
 
       {/* Job List */}
       <Row>
