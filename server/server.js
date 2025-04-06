@@ -1,4 +1,7 @@
+import { Pool } from 'pg';
 const express = require("express");
+
+
 const cors = require("cors");
 
 require("dotenv").config();
@@ -15,16 +18,14 @@ app.get("/", (req, res) => {
 });
 
 // ✅ PostgreSQL connection
-const { Pool } = require("pg");
+// const { Pool } = require("pg");
 const pool = new Pool({
   user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
   host: process.env.PGHOST,
   database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
-  ssl: {
-    rejectUnauthorized: false, // required for Render PostgreSQL
-  }
+  ssl: { rejectUnauthorized: false }
 });
 
 
@@ -132,3 +133,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+export default pool;
