@@ -18,7 +18,6 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    
     axios
       .get("https://job-api-4lhs.onrender.com/api/jobs")
       .then((response) => {
@@ -26,17 +25,96 @@ const Jobs = () => {
         if (Array.isArray(response.data)) {
           setJobs(response.data);
         } else {
-          setError("Invalid data received from server.");
+          throw new Error("Invalid data format");
         }
       })
       .catch((err) => {
-        console.error("❌ Error fetching jobs:", err);
-        setError("Failed to load jobs. Please try again.");
+        console.error("❌ Error fetching jobs, loading mock data:", err);
+  
+        // ✅ Load mock data
+        const mockJobs = [
+          {
+            id: 1,
+            title: "Frontend Developer",
+            company: "TechNova",
+            location: "Bangalore",
+            job_type: "full-time",
+            salary_range: "₹8 - ₹12 LPA",
+            description: "React-based UI development.",
+          },
+          {
+            id: 2,
+            title: "Backend Engineer",
+            company: "CodeVerse",
+            location: "Chennai",
+            job_type: "full-time",
+            salary_range: "₹10 - ₹15 LPA",
+            description: "Build scalable APIs with Node.js.",
+          },
+          {
+            id: 3,
+            title: "UI/UX Designer",
+            company: "PixelCraft",
+            location: "Remote",
+            job_type: "contract",
+            salary_range: "₹6 - ₹10 LPA",
+            description: "Design clean and intuitive UI.",
+          },
+          {
+            id: 4,
+            title: "DevOps Engineer",
+            company: "DeployIT",
+            location: "Mumbai",
+            job_type: "full-time",
+            salary_range: "₹14 - ₹20 LPA",
+            description: "Manage infrastructure and CI/CD pipelines.",
+          },
+          {
+            id: 5,
+            title: "Full Stack Developer",
+            company: "BrightSoft",
+            location: "Hyderabad",
+            job_type: "full-time",
+            salary_range: "₹12 - ₹18 LPA",
+            description: "React + Node stack, building dashboards.",
+          },
+          {
+            id: 6,
+            title: "Mobile Developer",
+            company: "AppNest",
+            location: "Pune",
+            job_type: "internship",
+            salary_range: "₹4 - ₹8 LPA",
+            description: "Work on Android and iOS apps.",
+          },
+          {
+            id: 7,
+            title: "QA Tester",
+            company: "Testify",
+            location: "Kolkata",
+            job_type: "part-time",
+            salary_range: "₹5 - ₹9 LPA",
+            description: "Manual and automation testing.",
+          },
+          {
+            id: 8,
+            title: "Data Analyst",
+            company: "InsightX",
+            location: "Delhi",
+            job_type: "full-time",
+            salary_range: "₹10 - ₹14 LPA",
+            description: "Work with large datasets and visualizations.",
+          }
+        ];
+  
+        setJobs(mockJobs);
+        setError("Failed to load from server. Showing mock data.");
       })
       .finally(() => {
         setLoading(false);
       });
   }, [setJobs]);
+  
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
