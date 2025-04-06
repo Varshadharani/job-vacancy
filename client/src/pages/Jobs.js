@@ -17,8 +17,7 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    axios
-      .get("https://job-api-4lhs.onrender.com/jobs") // Backend endpoint
+    axios.get("https://job-api-4lhs.onrender.com/api/jobs") // Backend endpoint
       .then((response) => {
         setJobs(response.data);
       })
