@@ -3,7 +3,7 @@ import JobCard from "../components/JobCards";
 import { Container, Row, Col, Spinner, Alert, Form } from "react-bootstrap";
 import axios from "axios";
 import { JobContext } from "../context/JobContext";
-import { response } from "express";
+
 
 const Jobs = () => {
   const { jobs, setJobs } = useContext(JobContext);
@@ -18,7 +18,7 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    console.log("response.data",response.data)
+    
     axios
       .get("https://job-api-4lhs.onrender.com/api/jobs")
       .then((response) => {
