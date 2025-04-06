@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
+require("dotenv").config();
+
 
 
 const app = express();
@@ -13,12 +15,13 @@ app.get("/", (req, res) => {
 });
 
 // ✅ PostgreSQL connection
+const { Pool } = require("pg");
+
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost", // ✅ For Render, change this to actual DB host
-  database: "job_management",
-  password: "Shanmugam@43",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Important for Render PostgreSQL
+  },
 });
 
 // ✅ DB test
