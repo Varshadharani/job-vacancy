@@ -32,8 +32,12 @@ const pool = new Pool({
 pool.connect((err, client, release) => {
   if (err) {
     console.error("❌ Database connection failed:", err.stack);
+    console.log("Connecting as:", process.env.PGUSER); // 👀
+
   } else {
     console.log("✅ Connected to PostgreSQL database");
+    console.log("Connecting as:", process.env.PGUSER); // 👀
+
     release();
   }
 });
