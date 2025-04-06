@@ -17,9 +17,9 @@ const Jobs = () => {
   });
 
   useEffect(() => {
-    axios.get("https://job-api-4lhs.onrender.com")
+    axios.get("https://job-api-4lhs.onrender.com/jobs") // ✅ Corrected endpoint
       .then((response) => {
-        setJobs(response.data); // Load jobs dynamically
+        setJobs(response.data); // ✅ Set job array
       })
       .catch((err) => {
         setError("Failed to load jobs. Please try again.");
@@ -34,14 +34,17 @@ const Jobs = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  const filteredJobs = jobs.filter((job) => {
-    return (
-      (job.title?.toLowerCase() || "").includes(filters.title.toLowerCase()) &&
-      (job.location?.toLowerCase() || "").includes(filters.location.toLowerCase()) &&
-      (job.jobtype?.toLowerCase() || "").includes(filters.jobType.toLowerCase()) &&
-      (job.salary?.toLowerCase() || "").includes(filters.salary.toLowerCase())
-    );
-  });
+  // ✅ Safely filter only if jobs is an array
+  const filteredJobs = Array.isArray(jobs)
+    ? jobs.filter((job) => {
+        return (
+          (job.title?.toLowerCase() || "").includes(filters.title.toLowerCase()) &&
+          (job.location?.toLowerCase() || "").includes(filters.location.toLowerCase()) &&
+          (job.jobtype?.toLowerCase() || "").includes(filters.jobType.toLowerCase()) &&
+          (job.salary?.toLowerCase() || "").includes(filters.salary.toLowerCase())
+        );
+      })
+    : [];
 
   return (
     <Container style={{ marginTop: "20px" }}>
