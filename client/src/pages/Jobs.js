@@ -4,7 +4,6 @@ import { Container, Row, Col, Spinner, Alert, Form } from "react-bootstrap";
 import axios from "axios";
 import { JobContext } from "../context/JobContext";
 
-
 const Jobs = () => {
   const { jobs, setJobs } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
@@ -30,7 +29,7 @@ const Jobs = () => {
       })
       .catch((err) => {
         console.error("❌ Error fetching jobs, loading mock data:", err);
-  
+
         // ✅ Load mock data
         const mockJobs = [
           {
@@ -106,7 +105,7 @@ const Jobs = () => {
             description: "Work with large datasets and visualizations.",
           }
         ];
-  
+
         setJobs(mockJobs);
         setError("Failed to load from server. Showing mock data.");
       })
@@ -114,7 +113,6 @@ const Jobs = () => {
         setLoading(false);
       });
   }, [setJobs]);
-  
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -172,9 +170,13 @@ const Jobs = () => {
         </Col>
       </Row>
 
-      {/* Loading or Error */}
+      {/* Loading */}
       {loading && <Spinner animation="border" className="d-block mx-auto" />}
-      {error && <Alert variant="danger" className="text-center">{error}</Alert>}
+
+      {/* Only show error if jobs array is empty */}
+      {error && jobs.length === 0 && (
+        <Alert variant="danger" className="text-center">{error}</Alert>
+      )}
 
       {/* Job List */}
       <Row>
