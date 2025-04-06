@@ -16,13 +16,17 @@ app.get("/", (req, res) => {
 
 // ✅ PostgreSQL connection
 const { Pool } = require("pg");
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
   ssl: {
-    rejectUnauthorized: false, // Important for Render PostgreSQL
-  },
+    rejectUnauthorized: false, // required for Render PostgreSQL
+  }
 });
+
 
 // ✅ DB test
 pool.connect((err, client, release) => {
